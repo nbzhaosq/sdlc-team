@@ -1,0 +1,41 @@
+{
+  "name": "@nbzhaosq/sdlc-team",
+  "version": "0.1.0",
+  "description": "SDLC Sub-Agent Team - Complete software development lifecycle pipeline as agent skills",
+  "keywords": [
+    "sdlc",
+    "ai",
+    "claude",
+    "cursor",
+    "agent",
+    "skills",
+    "development",
+    "pipeline"
+  ],
+  "author": "nbzhaosq",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nbzhaosq/sdlc-team.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nbzhaosq/sdlc-team/issues"
+  },
+  "homepage": "https://github.com/nbzhaosq/sdlc-team#readme",
+  "bin": {
+    "sdlc-init": "./bin/sdlc-init.js",
+    "sdlc": "./bin/sdlc.js"
+  },
+  "files": [
+    "bin/",
+    "skills/",
+    "install.sh",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "postinstall": "node bin/postinstall.js"
+  }
+}
