@@ -6,6 +6,9 @@
     "sdlc",
     "ai",
     "claude",
+    "claude-code",
+    "opencode",
+    "qodercli",
     "cursor",
     "agent",
     "skills",
@@ -23,19 +26,17 @@
   },
   "homepage": "https://github.com/nbzhaosq/sdlc-team#readme",
   "bin": {
-    "sdlc-init": "./bin/sdlc-init.js",
-    "sdlc": "./bin/sdlc.js"
+    "sdlc-team": "./bin/sdlc.js"
   },
   "files": [
     "bin/",
     "skills/",
     "install.sh",
-    "README.md"
+    "README.md",
+    "README_CN.md",
+    "LICENSE"
   ],
   "engines": {
-    "node": ">=20.0.0"
-  },
-  "scripts": {
-    "postinstall": "node bin/postinstall.js"
+    "node": ">=18.0.0"
   }
 }

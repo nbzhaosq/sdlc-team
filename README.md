@@ -2,98 +2,77 @@
 
 A complete Software Development Lifecycle (SDLC) pipeline implemented as agent skills with structured handoffs, state management, and multi-AI-tool support.
 
-[中文文档 (Chinese README)](README_CN.md) | [License](LICENSE)
-
 ## Installation
 
 ### Option 1: One-Line Install (Recommended)
 
 ```bash
-# Using curl
+# Interactive selection
 curl -fsSL https://raw.githubusercontent.com/nbzhaosq/sdlc-team/main/install.sh | bash
 
-# Or using wget
-wget -qO- https://raw.githubusercontent.com/nbzhaosq/sdlc-team/main/install.sh | bash
+# Specify tool
+curl -fsSL https://raw.githubusercontent.com/nbzhaosq/sdlc-team/main/install.sh | bash -s . --tool claude-code
+curl -fsSL https://raw.githubusercontent.com/nbzhaosq/sdlc-team/main/install.sh | bash -s . --tool opencode
+curl -fsSL https://raw.githubusercontent.com/nbzhaosq/sdlc-team/main/install.sh | bash -s . --tool qodercli
+curl -fsSL https://raw.githubusercontent.com/nbzhaosq/sdlc-team/main/install.sh | bash -s . --tool cursor
 
-# With target directory
-curl -fsSL https://raw.githubusercontent.com/nbzhaosq/sdlc-team/main/install.sh | bash -s /path/to/project
+# Install for all tools
+curl -fsSL https://raw.githubusercontent.com/nbzhaosq/sdlc-team/main/install.sh | bash -s . --all
 ```
 
-### Option 2: NPX (Node.js)
+### Option 2: NPX
 
 ```bash
-# Initialize in current directory
+# Interactive selection
 npx @nbzhaosq/sdlc-team init .
 
-# Specify target directory
-npx @nbzhaosq/sdlc-team init /path/to/project
+# Specify tool
+npx @nbzhaosq/sdlc-team init . --tool claude-code
+npx @nbzhaosq/sdlc-team init . --tool opencode
+npx @nbzhaosq/sdlc-team init . --tool qodercli
 
-# Create config for specific tool
-npx @nbzhaosq/sdlc-team init . --tool cursor
-
-# Create config for all tools
+# Install for all tools
 npx @nbzhaosq/sdlc-team init . --all
 ```
 
 ### Option 3: Git Clone
 
 ```bash
-# Clone the repository
 git clone https://github.com/nbzhaosq/sdlc-team.git
-
-# Copy skills to your project
-cp -r sdlc-team/skills /path/to/your/project/
-
-# Run initialization
-cd /path/to/your/project
-./skills/sdlc-init/scripts/init-sdlc.sh .
+cp -r sdlc-team/skills /path/to/your/project/.claude/
+# or: cp -r sdlc-team/skills /path/to/your/project/.opencode/
+# or: cp -r sdlc-team/skills /path/to/your/project/.qoder/
 ```
 
-### Option 4: Git Submodule
+## Supported AI Tools
 
-```bash
-# Add as submodule
-git submodule add https://github.com/nbzhaosq/sdlc-team.git skills/sdlc-team
-
-# Create symlink to skills (optional)
-ln -s sdlc-team/skills skills
-```
-
-### Verify Installation
-
-```bash
-# Check if skills are installed
-ls skills/sdlc*
-
-# Should see:
-# skills/sdlc/
-# skills/sdlc-init/
-# skills/sdlc-requirements/
-# skills/sdlc-architecture/
-# skills/sdlc-development/
-# skills/sdlc-review/
-# skills/sdlc-testing/
-```
+| Tool | Skills Directory | Config File | Command Prefix |
+|------|-----------------|-------------|----------------|
+| Claude Code | `.claude/skills/` | `CLAUDE.md` | `/sdlc:*` |
+| OpenCode | `.opencode/skills/` | `OPENCODE.md` | `/sdlc:*` |
+| QoderCLI | `.qoder/skills/` | `QODER.md` | `/sdlc:*` |
+| Cursor | `.cursor/skills/` | `.cursorrules` | `Cmd+K` |
+| Generic | `skills/` | `AGENTS.md` | workflow |
 
 ## Features
 
 - **5-Phase Pipeline**: Requirements → Architecture → Development → Review → Testing
 - **Structured Handoffs**: Each phase produces artifacts for the next
 - **State Management**: Track pipeline progress with `.sdlc-state.json`
-- **Multi-Tool Support**: Works with Claude Code, Cursor, Windsurf, and other AI tools
-- **Per-Project Customization**: Configure via CLAUDE.md, AGENTS.md, or .cursorrules
+- **Multi-Tool Support**: Works with Claude Code, OpenCode, QoderCLI, Cursor, and generic AI tools
+- **Per-Project Customization**: Configure via tool-specific config files
 - **Quality Gates**: Built-in checklists, linting, and test verification
 
 ## Quick Start
 
-### 1. Initialize Project
+### 1. Install
 
 ```bash
-# Auto-detect AI tool and configure
-/sdlc:init
+# Interactive - will prompt for tool selection
+npx @nbzhaosq/sdlc-team init .
 
-# Or run the init script
-./skills/sdlc-init/scripts/init-sdlc.sh .
+# Or specify your tool
+npx @nbzhaosq/sdlc-team init . --tool claude-code
 ```
 
 ### 2. Run Pipeline
@@ -114,13 +93,11 @@ ls skills/sdlc*
 
 | Command | Aliases | Description |
 |---------|---------|-------------|
-| `/sdlc:init` | `/sdlc-init` | Initialize project for SDLC |
 | `/sdlc "feature"` | `/sdlc:run` | Run full 5-phase pipeline |
 | `/sdlc --resume <phase>` | | Resume from specific phase |
-| `/sdlc --phase <phase>` | | Run single phase only |
 | `/sdlc:analyze` | `/sdlc:req` | Phase 1: Requirements Analysis |
 | `/sdlc:design` | `/sdlc:arch` | Phase 2: Architecture Design |
-| `/sdlc:develop` | `/sdlc:code`, `/sdlc:dev` | Phase 3: Implementation |
+| `/sdlc:develop` | `/sdlc:code` | Phase 3: Implementation |
 | `/sdlc:review` | `/sdlc:code-review` | Phase 4: Code Review |
 | `/sdlc:test` | `/sdlc:verify` | Phase 5: Testing & Verification |
 
@@ -128,32 +105,29 @@ ls skills/sdlc*
 
 ```
 your-project/
-├── CLAUDE.md                    # Claude Code configuration
-├── AGENTS.md                    # Universal AI tool configuration
-├── .cursorrules                 # Cursor configuration
-├── .sdlc-state.json             # Pipeline state tracking
+├── .claude/skills/          # Claude Code skills (or .opencode/skills, .qoder/skills)
+│   ├── sdlc/                # Coordinator
+│   ├── sdlc-requirements/   # Phase 1
+│   ├── sdlc-architecture/   # Phase 2
+│   ├── sdlc-development/    # Phase 3
+│   ├── sdlc-review/         # Phase 4
+│   └── sdlc-testing/        # Phase 5
+│
+├── CLAUDE.md               # Tool config (or OPENCODE.md, QODER.md, etc.)
+├── .sdlc-state.json        # Pipeline state tracking
 │
 ├── docs/
-│   └── sdlc/                    # Phase artifacts
-│       ├── requirements.md      # Phase 1 output
-│       ├── architecture.md      # Phase 2 output
-│       ├── implementation-notes.md  # Phase 3 output
-│       ├── review-feedback.md   # Phase 4 output
-│       └── test-report.md       # Phase 5 output
+│   └── sdlc/               # Phase artifacts
+│       ├── requirements.md
+│       ├── architecture.md
+│       ├── implementation-notes.md
+│       ├── review-feedback.md
+│       └── test-report.md
 │
-├── .sdlc/
-│   ├── templates/               # Custom templates
-│   ├── scripts/                 # Custom validation scripts
-│   └── standards/               # Coding standards
-│
-└── skills/                      # SDLC skills (embedded)
-    ├── sdlc/                    # Coordinator
-    ├── sdlc-init/               # Initialization
-    ├── sdlc-requirements/       # Phase 1
-    ├── sdlc-architecture/       # Phase 2
-    ├── sdlc-development/        # Phase 3
-    ├── sdlc-review/             # Phase 4
-    └── sdlc-testing/            # Phase 5
+└── .sdlc/                  # Customizations
+    ├── templates/
+    ├── scripts/
+    └── standards/
 ```
 
 ## Pipeline Flow
@@ -169,129 +143,11 @@ your-project/
                                        notes.md + code
 ```
 
-### Phase Details
-
-| Phase | Input | Output | Checklist |
-|-------|-------|--------|-----------|
-| 1. Requirements | Feature request | `requirements.md` | User stories, acceptance criteria, edge cases |
-| 2. Architecture | `requirements.md` | `architecture.md` | Components, APIs, data models, security |
-| 3. Development | `architecture.md` | Code + `implementation-notes.md` | Features, tests, error handling |
-| 4. Review | Code + architecture | `review-feedback.md` | Quality, security, performance |
-| 5. Testing | Code + review approval | `test-report.md` | Tests pass, criteria verified |
-
-## Multi-Tool Support
-
-### Supported AI Tools
-
-| Tool | Config File | Support Level |
-|------|-------------|---------------|
-| Claude Code | `CLAUDE.md` | Full (slash commands) |
-| Cursor | `.cursorrules` | Workflow guidance |
-| Windsurf | `.windsurfrules` | Workflow guidance |
-| Generic | `AGENTS.md` | Universal format |
-
-### Initialize for Multiple Tools
-
-```bash
-# Create configs for all tools
-./skills/sdlc-init/scripts/init-sdlc.sh . all
-
-# Creates:
-# - CLAUDE.md (Claude Code)
-# - AGENTS.md (Universal)
-# - .cursorrules (Cursor)
-```
-
-## State Tracking
-
-Pipeline state is tracked in `.sdlc-state.json`:
-
-```json
-{
-  "project": "user-auth",
-  "current_phase": "development",
-  "phases": {
-    "requirements": { "status": "completed", "completed_at": "2025-03-25T10:00:00Z" },
-    "architecture": { "status": "completed", "completed_at": "2025-03-25T11:30:00Z" },
-    "development": { "status": "in_progress", "started_at": "2025-03-25T12:00:00Z" },
-    "review": { "status": "pending" },
-    "testing": { "status": "pending" }
-  },
-  "artifacts": {
-    "requirements": "docs/sdlc/requirements.md",
-    "architecture": "docs/sdlc/architecture.md"
-  }
-}
-```
-
-## Error Handling
-
-| Scenario | Behavior |
-|----------|----------|
-| Missing prior artifact | Prompt to run earlier phase or provide input |
-| Phase failure | Halt pipeline, present error, await decision |
-| Review finds issues | Return to development with specific feedback |
-| Tests fail | Return to development with failure details |
-| State corruption | Recovery mode - rebuild from artifacts |
-
-## Examples
-
-### Example 1: New Feature
-
-```bash
-# Start full pipeline
-/sdlc "Build user profile page with avatar upload"
-
-# Pipeline will:
-# 1. Generate requirements.md with user stories
-# 2. Design architecture with API endpoints
-# 3. Implement the feature
-# 4. Review code quality and security
-# 5. Run tests and verify acceptance criteria
-```
-
-### Example 2: Resume After Interruption
-
-```bash
-# Pipeline interrupted during development
-/sdlc --resume development
-
-# Continues from development phase
-# Uses existing requirements.md and architecture.md
-```
-
-### Example 3: Single Phase Iteration
-
-```bash
-# Run only review after manual changes
-/sdlc:review
-
-# Or iterate on architecture
-/sdlc:design
-```
-
-## Deployment
-
-### Team/Enterprise
-
-1. Copy `skills/` to shared location
-2. Each project runs `/sdlc:init` to configure
-3. Projects customize via their config file(s)
-4. Team shares templates and standards
-
-### Embedded in Project
-
-1. Include `skills/` in project repository
-2. Run `/sdlc:init` during project setup
-3. Commit `.sdlc-state.json` and config files
-4. Team members share configuration via git
-
 ## Skills Reference
 
 | Skill | Name | Aliases | Purpose |
 |-------|------|---------|---------|
-| Coordinator | `sdlc` | `sdlc:run`, `sdlc:pipeline` | Main orchestrator |
-| Init | `sdlc:init` | `sdlc-init` | Project initialization |
+| Coordinator | `sdlc` | `sdlc:run` | Main orchestrator |
 | Phase 1 | `sdlc:requirements` | `sdlc:analyze`, `sdlc:req` | Requirements Analysis |
 | Phase 2 | `sdlc:architecture` | `sdlc:design`, `sdlc:arch` | Architecture Design |
 | Phase 3 | `sdlc:development` | `sdlc:develop`, `sdlc:code` | Implementation |
@@ -300,8 +156,9 @@ Pipeline state is tracked in `.sdlc-state.json`:
 
 ## Requirements
 
-- Claude Code (for slash commands) or compatible AI tool
-- Bash (for scripts)
+- Node.js >= 18.0.0 (for NPX)
+- Bash (for shell scripts)
+- Git (for cloning)
 - Project-appropriate tools (npm, pytest, go test, etc.)
 
 ## License
