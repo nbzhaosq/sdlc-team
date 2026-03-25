@@ -59,10 +59,13 @@ function log(color, msg) {
   console.log(`${c[color]}${msg}${c.nc}`);
 }
 
+// Valid commands that can be specified
+const VALID_COMMANDS = ['init', 'install', 'help'];
+
 function parseArgs(args) {
   const result = {
-    command: 'init',
-    targetDir: '.',
+    command: 'init',  // default command
+    targetDir: '.',   // default target directory
     tool: null,
     all: false,
     help: false
@@ -78,10 +81,12 @@ function parseArgs(args) {
     } else if (arg === '--help' || arg === '-h' || arg === 'help') {
       result.help = true;
     } else if (!arg.startsWith('-')) {
-      if (result.command === 'init' && (result.targetDir === '.' || !result.targetDir)) {
-        result.targetDir = arg;
-      } else {
+      // If it's a valid command and we haven't set a non-default command yet
+      if (VALID_COMMANDS.includes(arg) && result.command === 'init') {
         result.command = arg;
+      } else {
+        // Otherwise it's the target directory
+        result.targetDir = arg;
       }
     }
   }
