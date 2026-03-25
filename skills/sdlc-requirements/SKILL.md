@@ -26,6 +26,12 @@ User's feature request or problem statement (can be informal description, ticket
 
 ## Responsibilities
 
+### Interactive Confirmation (IMPORTANT)
+- **Ask questions when uncertain**: If any requirement is unclear, ambiguous, or incomplete, STOP and ask the user for clarification before proceeding
+- **Mid-analysis check-ins**: When encountering significant decisions or assumptions, present options to the user and get confirmation
+- **Final confirmation**: After completing the requirements document, present a summary to the user and get explicit approval before marking the phase complete
+- **Never assume**: Document all assumptions, but prioritize getting user confirmation over making assumptions
+
 ### Extract Functional Requirements
 - Identify what the system must do
 - Define user actions and system responses
@@ -72,3 +78,11 @@ Requirements documents follow the template in `references/requirements-template.
 ## Validation
 
 Run `scripts/validate-requirements.sh` to verify the requirements document is complete before proceeding to design.
+
+### User Confirmation Gate
+
+Before finalizing requirements:
+1. Present a summary of all requirements to the user
+2. Highlight key decisions and assumptions made
+3. Ask the user to confirm or provide corrections
+4. Only proceed to the next phase after explicit user approval

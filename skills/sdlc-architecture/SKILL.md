@@ -25,6 +25,12 @@ Before marking this phase complete, ensure:
 
 ## Responsibilities
 
+### Interactive Confirmation (IMPORTANT)
+- **Validate with user**: When making significant architectural decisions (tech stack, patterns, trade-offs), present options to the user and get confirmation
+- **Mid-design check-ins**: Before committing to major design choices, explain the implications and get user buy-in
+- **Final review**: After completing the architecture document, walk through the key design decisions with the user and get explicit approval
+- **Explain trade-offs**: When presenting options, clearly explain pros/cons so the user can make informed decisions
+
 ### System Architecture Design
 - Design overall system architecture and component interactions
 - Define system boundaries and module responsibilities
@@ -99,3 +105,10 @@ Before marking this phase complete, ensure:
    - Write complete architecture document to `docs/sdlc/architecture.md`
    - Use the provided template for structure
    - Ensure all checklist items are addressed
+
+8. **User Confirmation Gate**
+   - Present architecture summary to user
+   - Explain key design decisions and their rationale
+   - Highlight any trade-offs or risks
+   - Get explicit user approval before marking phase complete
+   - Address any feedback or concerns raised by user
