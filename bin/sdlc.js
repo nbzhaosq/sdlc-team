@@ -21,13 +21,13 @@ const TOOLS = {
   'opencode': {
     name: 'OpenCode',
     skillsDir: '.opencode/skills',
-    configFile: 'OPENCODE.md',
+    configFile: 'AGENTS.md',
     commandPrefix: '/sdlc'
   },
   'qodercli': {
     name: 'QoderCLI',
     skillsDir: '.qoder/skills',
-    configFile: 'QODER.md',
+    configFile: 'AGENTS.md',
     commandPrefix: '/sdlc'
   },
   'cursor': {
